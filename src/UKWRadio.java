@@ -1,6 +1,7 @@
 public class UKWRadio {
     private double minFrequency = 87.5; //private - only for bordering currentFrequency
     private double maxFrequency = 108.0; //private - only for bordering currentFrequency
+
     private double currentFrequency = 87.5; //private - but there is a getter
     protected double[] saveButtons; //represents Buttons that change the frequency to saved values
 
