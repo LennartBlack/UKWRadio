@@ -9,14 +9,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class UKWRadioGUI extends Frame {
+    public static void main(String[] args) {
+        new UKWRadioGUI();
+    }
    //constructor for Radio GUI
     UKWRadioGUI() {
         super("UKWRadio");
         UKWRadio radio = new UKWRadio(2); //constructs a radio with 2 save Buttons
-        this.addWindowFocusListener(new WindowCloseAction());
-        //basic Layout for pop up radio
+        this.addWindowFocusListener(new WindowCloseAction()); //?
+        //outter Layout for pop up radio/ first row
         this.setLayout(new GridLayout(4, 1));
-            Label showFrequency = new Label("" + radio.deliverCurrentFrequency());
+            Label showFrequency = new Label("" + radio.getFrequency());
             Panel changeF = new Panel();
             Panel save1Panel = new Panel();
             Panel save2Panel = new Panel();
@@ -25,7 +28,7 @@ public class UKWRadioGUI extends Frame {
             this.add(save1Panel);
             this.add(save2Panel);
 
-        //changeF Layout
+        //inner Layout/ second row
         changeF.setLayout(new GridLayout(1,2));
         Button lowerFrequency = new Button("Lower frequency");
         Button raiseFrequency = new Button("Raise frequency");
@@ -34,22 +37,22 @@ public class UKWRadioGUI extends Frame {
         changeF.add(lowerFrequency);
         changeF.add(raiseFrequency);
 
-        //save1Panel
+        //inner Layout/ third row
         save1Panel.setLayout(new GridLayout(1,3));
-        Label name1 = new Label("Saved frequence 1");
-        Button saveF1 = new Button("Save Frequence");
-        Button changeF1 = new Button("Set Frequence");
+        Label name1 = new Label("Saved frequency 1");
+        Button saveF1 = new Button("Save Frequency");
+        Button changeF1 = new Button("Set Frequency");
         saveF1.addActionListener(new SaveFAction(showFrequency, radio, 0));
         changeF1.addActionListener(new SetFAction(showFrequency, radio, 0));
         save1Panel.add(name1);
         save1Panel.add(saveF1);
         save1Panel.add(changeF1);
 
-        //save2Panel
+        //inner Layout/ fourth row
         save2Panel.setLayout(new GridLayout(1,3));
-        Label name2 = new Label("Saved frequence 2");
-        Button saveF2 = new Button("Save Frequence");
-        Button setF2 = new Button("Set Frequence");
+        Label name2 = new Label("Saved frequency 2");
+        Button saveF2 = new Button("Save Frequency");
+        Button setF2 = new Button("Set Frequency");
         saveF2.addActionListener(new SaveFAction(showFrequency, radio, 1));
         setF2.addActionListener(new SetFAction(showFrequency, radio, 1));
         save2Panel.add(name2);
@@ -59,11 +62,9 @@ public class UKWRadioGUI extends Frame {
         this.pack();
         this.setVisible(true);
     }
-
-    public static void main(String[] args) {
-        new UKWRadioGUI();
-    }
 }
+// ActionListener classes
+//SetFAction sets the radio on saved frequency
 class SetFAction implements ActionListener{
     Label showFrequency;
     UKWRadio radio;
@@ -76,9 +77,10 @@ class SetFAction implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         radio.setFrequency(Button);
-        this.showFrequency.setText("" + this.radio.deliverCurrentFrequency());
+        this.showFrequency.setText("" + this.radio.getFrequency());
     }
 }
+//SaveFAction saves current frequency
 class SaveFAction implements ActionListener{
     Label showFrequency;
     UKWRadio radio;
@@ -91,9 +93,10 @@ class SaveFAction implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e){
         this.radio.saveFrequency(this.Button);
-        this.showFrequency.setText("" + this.radio.deliverCurrentFrequency());
+        this.showFrequency.setText("" + this.radio.getFrequency());
     }
 }
+//Lowers current frequency by 0.5Mhz
 class LowerFrequencyAction implements ActionListener {
     Label showFrequency;
     UKWRadio radio;
@@ -104,9 +107,10 @@ class LowerFrequencyAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         this.radio.lowerFrequency();
-        this.showFrequency.setText("" + this.radio.deliverCurrentFrequency());
+        this.showFrequency.setText("" + this.radio.getFrequency());
     }
 }
+//Raises current frequency by 0.5Mhz
 class RaiseFrequencyAction implements ActionListener {
     Label showFrequency;
     UKWRadio radio;
@@ -117,9 +121,10 @@ class RaiseFrequencyAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ev) {
         this.radio.raiseFrequency();
-        this.showFrequency.setText("" + this.radio.deliverCurrentFrequency());
+        this.showFrequency.setText("" + this.radio.getFrequency());
     }
 }
+//?
 class WindowCloseAction extends WindowAdapter {
     @Override
     public void windowClosing(WindowEvent e){
